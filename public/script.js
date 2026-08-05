@@ -81,16 +81,21 @@ function render(poll) {
 }
 
 async function fetchStatus() {
-	loadingEl.hidden = false;
-	idleEl.hidden = true;
-	votingEl.hidden = true;
-	resultEl.hidden = true;
+	const shouldShowLoading = !currentPoll;
+	if (shouldShowLoading) {
+		loadingEl.hidden = false;
+		idleEl.hidden = true;
+		votingEl.hidden = true;
+		resultEl.hidden = true;
+	}
 	try {
 		const res = await fetch("/api/poll-status");
 		const data = await res.json();
 		render(data);
 	} catch (e) {
-		loadingEl.hidden = true;
+		if (shouldShowLoading) {
+			loadingEl.hidden = true;
+		}
 		// Netzwerkfehler, beim naechsten Intervall erneut versuchen
 	}
 }
