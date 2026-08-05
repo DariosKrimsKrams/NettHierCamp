@@ -155,6 +155,7 @@ function updateShareLink(poll) {
 }
 
 function showNewPollForm() {
+	clearStatusPolling();
 	loadingEl.hidden = true;
 	votingEl.hidden = true;
 	resultEl.hidden = true;
