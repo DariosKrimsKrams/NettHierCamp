@@ -85,6 +85,7 @@ const nextUnlockCountdownEl = document.getElementById("next-unlock-countdown");
 const firstPollModal = document.getElementById("first-poll-modal");
 const firstPollOkBtn = document.getElementById("first-poll-ok");
 const newPollBtn = document.getElementById("new-poll-button");
+const ahojImage = document.getElementById("ahoj-image");
 let idleModalShown = false;
 const FIRST_POLL_SHOWN_PREFIX = "ahoj-first-poll-shown-";
 
@@ -185,6 +186,13 @@ function showFirstPollModal(hourSlot) {
 	firstPollModal.hidden = false;
 	firstPollModal.style.display = "grid";
 	idleModalShown = true;
+}
+
+function animateAhojImage() {
+	if (!ahojImage) return;
+	ahojImage.classList.remove("animate");
+	void ahojImage.offsetWidth;
+	ahojImage.classList.add("animate");
 }
 
 function hideFirstPollModal(hourSlot) {
@@ -308,6 +316,10 @@ if (firstPollOkBtn) {
 	firstPollOkBtn.addEventListener("click", () => {
 		hideFirstPollModal(currentPoll?.hourSlot);
 	});
+}
+
+if (ahojImage) {
+	ahojImage.addEventListener("click", animateAhojImage);
 }
 
 if (newPollBtn) {
