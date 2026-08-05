@@ -1,7 +1,7 @@
 body {
 	font-family: 'Comic Sans MS', 'Comic Neue', Arial, sans-serif;
 	text-align: center;
-	background: linear-gradient(180deg, #fff7e6 0%, #ffe2c9 50%, #ffdfd6 100%);
+	background: linear-gradient(180deg, #fff 0%, #fff7e6 50%, #ffe2c9 100%);
 	color: #2d1b12;
 	margin: 0;
 	padding: 0 10px 30px;
@@ -12,9 +12,8 @@ body {
 }
 
 h1 {
-		margin: 20px auto 10px;
+		margin: 40px auto 20px;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    color: #FF0017;
     font-family: "Arial", Sans-serif;
     font-size: 4.9rem;
     font-weight: 900;
@@ -144,6 +143,24 @@ body p {
 	color: #b12727;
 	font-weight: bold;
 	margin-bottom: 12px;
+}
+
+#share-container {
+	margin-top: 16px;
+}
+
+#share-link {
+	display: inline-block;
+	padding: 12px 18px;
+	background: #25d366;
+	color: white;
+	border-radius: 14px;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#share-link:hover {
+	background: #1ebe5e;
 }
 
 #poll-result {
@@ -293,7 +310,7 @@ a img {
 
 @media (max-width: 520px) {
 	h1 {
-		font-size: 2.8rem;
+		font-size: 4.2rem;
 	}
 
 	#poll-container {

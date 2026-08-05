@@ -9,7 +9,7 @@
 <body>
 
 <h1>Nett Hier Camp - Partyyyyyy !!!!!!</h1>
-<p>Afterparty HEUTE: Täglich Spontan</p>
+<p><b>Afterparty HEUTE: Spontan</b></p>
 
 <div class="gallery">
 	<img id="gallery-img" src="images/MemberMap.png" alt="Camp Bild">
@@ -20,7 +20,7 @@
 		<img src="images/Ahoj.jpg" alt="Ahoj" width="40">
 	</a>
 	<p>1x die Stunde zur Vollen werden wir auch Voll!</p>
-	<h2>Wer muss(darf) gleich Ahoj trinken?</h2>
+	<h2>Wer bekommt gleich 'n Ahoj?</h2>
 
 	<p id="poll-error" hidden></p>
 	<div id="poll-loading">
@@ -28,7 +28,7 @@
 	</div>
 
 	<div id="poll-idle" hidden>
-		<p>Trage 3 Namen ein und starte die Umfrage!</p>
+		<!-- <p>Trage 3 Namen ein und starte die Umfrage!</p> -->
 		<form id="start-form">
 			<input type="text" id="name1" placeholder="Name 1" required>
 			<input type="text" id="name2" placeholder="Name 2" required>
@@ -40,6 +40,9 @@
 	<div id="poll-voting" hidden>
 		<p>Umfrage läuft noch <span id="countdown"></span></p>
 		<div id="voting-names"></div>
+		<div id="share-container" hidden>
+			<a id="share-link" href="#" target="_blank" rel="noopener noreferrer">Auf WhatsApp teilen</a>
+		</div>
 	</div>
 
 	<div id="poll-result" hidden>

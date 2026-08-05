@@ -1,5 +1,5 @@
 // --- Bilder-Galerie: ein Bild, wechselt automatisch ---
-const galleryImages = ["images/MemberMap.png", "images/Rob_out.jpg", "images/Ahoj.jpg"];
+const galleryImages = ["images/MemberMap.png", "images/Rob_out.jpg"];
 const GALLERY_INTERVAL_MS = 15000;
 const GALLERY_SWIPE_THRESHOLD = 40;
 let galleryIndex = 0;
@@ -135,6 +135,23 @@ function showError(msg) {
 	setTimeout(() => { errorEl.hidden = true; }, 4000);
 }
 
+function updateShareLink(poll) {
+	const shareContainer = document.getElementById("share-container");
+	const shareLink = document.getElementById("share-link");
+	if (!shareContainer || !shareLink || poll.phase !== "voting") {
+		if (shareContainer) shareContainer.hidden = true;
+		return;
+	}
+
+	const question = "Wer bekommst gleich 'n Ahoj?\n - ";
+	const options = poll.names.join("\n - ");
+	const url = window.location.href;
+	const text = `${question} ${options}\nHier mitmachen: ${url}`;
+	const encoded = encodeURIComponent(text);
+	shareLink.href = `https://wa.me/?text=${encoded}`;
+	shareContainer.hidden = false;
+}
+
 function getModalHourKey(hourSlot) {
 	return FIRST_POLL_SHOWN_PREFIX + hourSlot;
 }
@@ -190,6 +207,7 @@ function render(poll) {
 			btn.addEventListener("click", () => castVote(name));
 			votingNamesEl.appendChild(btn);
 		});
+		updateShareLink(poll);
 	}
 
 	if (poll.phase === "result") {
