@@ -230,7 +230,7 @@ function render(poll) {
 		poll.names.forEach((name) => {
 			const btn = document.createElement("button");
 			btn.type = "button";
-			btn.textContent = name;
+			btn.textContent = name + " (" + (poll.votes[name] || 0) + ")";
 			btn.disabled = voted;
 			btn.addEventListener("click", () => castVote(name));
 			votingNamesEl.appendChild(btn);
