@@ -16,6 +16,7 @@ const clientId = getClientId();
 const idleEl = document.getElementById("poll-idle");
 const votingEl = document.getElementById("poll-voting");
 const resultEl = document.getElementById("poll-result");
+const loadingEl = document.getElementById("poll-loading");
 const errorEl = document.getElementById("poll-error");
 const startForm = document.getElementById("start-form");
 const votingNamesEl = document.getElementById("voting-names");
@@ -51,6 +52,7 @@ function showError(msg) {
 
 function render(poll) {
 	currentPoll = poll;
+	loadingEl.hidden = true;
 	idleEl.hidden = poll.phase !== "idle";
 	votingEl.hidden = poll.phase !== "voting";
 	resultEl.hidden = poll.phase !== "result";
@@ -79,11 +81,16 @@ function render(poll) {
 }
 
 async function fetchStatus() {
+	loadingEl.hidden = false;
+	idleEl.hidden = true;
+	votingEl.hidden = true;
+	resultEl.hidden = true;
 	try {
 		const res = await fetch("/api/poll-status");
 		const data = await res.json();
 		render(data);
 	} catch (e) {
+		loadingEl.hidden = true;
 		// Netzwerkfehler, beim naechsten Intervall erneut versuchen
 	}
 }

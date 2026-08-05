@@ -22,8 +22,11 @@
 	<h2>Wer muss(darf) gleich Ahoj trinken?</h2>
 
 	<p id="poll-error" hidden></p>
+	<div id="poll-loading">
+		<p>Wird geladen… bitte kurz warten.</p>
+	</div>
 
-	<div id="poll-idle">
+	<div id="poll-idle" hidden>
 		<p>Trage 3 Namen ein und starte die Umfrage!</p>
 		<form id="start-form">
 			<input type="text" id="name1" placeholder="Name 1" required>

@@ -66,7 +66,8 @@ body p {
 
 #poll-idle p,
 #poll-voting p,
-#poll-result p {
+#poll-result p,
+#poll-loading p {
 	font-size: 1rem;
 	margin: 0 0 12px;
 }
