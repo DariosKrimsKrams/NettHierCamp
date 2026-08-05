@@ -32,6 +32,8 @@ const FIRST_POLL_SHOWN_PREFIX = "ahoj-first-poll-shown-";
 
 let currentPoll = null;
 let statusConfirmed = false;
+let statusIntervalId = null;
+let statusTimeoutId = null;
 
 function getClientId() {
 	let id = localStorage.getItem("ahoj-client-id");
@@ -40,6 +42,26 @@ function getClientId() {
 		localStorage.setItem("ahoj-client-id", id);
 	}
 	return id;
+}
+
+function clearStatusPolling() {
+	if (statusIntervalId !== null) {
+		clearInterval(statusIntervalId);
+		statusIntervalId = null;
+	}
+	if (statusTimeoutId !== null) {
+		clearTimeout(statusTimeoutId);
+		statusTimeoutId = null;
+	}
+}
+
+function scheduleStatusPolling(delay = 10000) {
+	clearStatusPolling();
+	statusTimeoutId = setTimeout(() => {
+		fetchStatus();
+		statusIntervalId = setInterval(fetchStatus, POLL_INTERVAL_MS);
+		statusTimeoutId = null;
+	}, delay);
 }
 
 function hasVotedThisHour(hourSlot) {
@@ -191,6 +213,8 @@ startForm.addEventListener("submit", async (e) => {
 		}
 		startForm.reset();
 		render(data);
+		clearStatusPolling();
+		scheduleStatusPolling(10000);
 	} catch (e) {
 		showError("Netzwerkfehler.");
 	}
@@ -228,5 +252,5 @@ function tickCountdown() {
 }
 
 fetchStatus();
-setInterval(fetchStatus, POLL_INTERVAL_MS);
+scheduleStatusPolling(10000);
 setInterval(tickCountdown, 1000);
