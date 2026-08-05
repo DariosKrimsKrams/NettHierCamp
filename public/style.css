@@ -25,14 +25,20 @@ body p {
 .gallery {
 	margin: 0 auto 25px;
 	max-width: 760px;
+	height: 520px;
 	padding: 10px;
 	border: 2px dashed #d18b68;
 	background: rgba(255, 255, 255, 0.8);
+	display: grid;
+	place-items: center;
+	overflow: hidden;
 }
 
 .gallery img {
-	width: 100%;
-	height: auto;
+	height: 100%;
+	width: auto;
+	max-width: 100%;
+	object-fit: contain;
 	border-radius: 10px;
 }
 
@@ -153,6 +159,11 @@ a img {
 
 	#poll-container {
 		padding: 18px;
+	}
+
+	.gallery {
+		height: calc(70vw);
+		max-height: calc(70vw);
 	}
 
 	#start-form input,

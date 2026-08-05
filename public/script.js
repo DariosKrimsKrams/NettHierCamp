@@ -1,6 +1,6 @@
 // --- Bilder-Galerie: ein Bild, wechselt automatisch ---
 const galleryImages = ["images/MemberMap.png", "images/Ahoj.jpg"];
-const GALLERY_INTERVAL_MS = 4000;
+const GALLERY_INTERVAL_MS = 15000;
 let galleryIndex = 0;
 const galleryImg = document.getElementById("gallery-img");
 
