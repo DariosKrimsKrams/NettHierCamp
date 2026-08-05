@@ -1,6 +1,6 @@
 import { getStore } from "@netlify/blobs";
 
-export const POLL_DURATION_MS = 3 * 60 * 1000; // 3 Minuten Abstimmzeit
+export const POLL_DURATION_MS = 1 * 60 * 1000; // 1 Minute Abstimmzeit
 
 export function getPollStore() {
 	return getStore("polls");
