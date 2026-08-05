@@ -25,6 +25,8 @@ const resultTextEl = document.getElementById("result-text");
 const resultVotesEl = document.getElementById("result-votes");
 const nextUnlockEl = document.getElementById("next-unlock");
 const nextUnlockCountdownEl = document.getElementById("next-unlock-countdown");
+const firstPollModal = document.getElementById("first-poll-modal");
+const firstPollOkBtn = document.getElementById("first-poll-ok");
 
 let currentPoll = null;
 
@@ -49,6 +51,25 @@ function showError(msg) {
 	errorEl.textContent = msg;
 	errorEl.hidden = false;
 	setTimeout(() => { errorEl.hidden = true; }, 4000);
+}
+
+function hasSeenFirstPollModal(hourSlot) {
+	return localStorage.getItem("ahoj-first-poll-" + hourSlot) === "1";
+}
+
+function markSeenFirstPollModal(hourSlot) {
+	localStorage.setItem("ahoj-first-poll-" + hourSlot, "1");
+}
+
+function showFirstPollModal(hourSlot) {
+	if (!firstPollModal || hasSeenFirstPollModal(hourSlot)) return;
+	firstPollModal.hidden = false;
+}
+
+function hideFirstPollModal(hourSlot) {
+	if (!firstPollModal) return;
+	firstPollModal.hidden = true;
+	markSeenFirstPollModal(hourSlot);
 }
 
 function render(poll) {
@@ -78,6 +99,12 @@ function render(poll) {
 		resultVotesEl.textContent = poll.names
 			.map((n) => n + ": " + (poll.votes[n] || 0))
 			.join(" | ");
+	}
+
+	if (poll.phase === "idle") {
+		showFirstPollModal(poll.hourSlot);
+	} else {
+		hideFirstPollModal(poll.hourSlot);
 	}
 }
 
@@ -145,6 +172,14 @@ startForm.addEventListener("submit", async (e) => {
 		showError("Netzwerkfehler.");
 	}
 });
+
+if (firstPollOkBtn) {
+	firstPollOkBtn.addEventListener("click", () => {
+		if (currentPoll) {
+			hideFirstPollModal(currentPoll.hourSlot);
+		}
+	});
+}
 
 function tickCountdown() {
 	if (currentPoll && currentPoll.phase === "voting") {
