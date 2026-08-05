@@ -78,12 +78,15 @@ function isWithinModalWindow() {
 function showFirstPollModal(hourSlot) {
 	if (!firstPollModal || idleModalShown || !isWithinModalWindow() || hasSeenFirstPollModal(hourSlot)) return;
 	firstPollModal.hidden = false;
+	firstPollModal.style.display = "grid";
 	idleModalShown = true;
 }
 
 function hideFirstPollModal(hourSlot) {
 	if (!firstPollModal) return;
 	firstPollModal.hidden = true;
+	firstPollModal.style.display = "none";
+	idleModalShown = false;
 	if (hourSlot) {
 		markSeenFirstPollModal(hourSlot);
 	}
@@ -91,13 +94,13 @@ function hideFirstPollModal(hourSlot) {
 
 function render(poll) {
 	currentPoll = poll;
+	statusConfirmed = true;
 	loadingEl.hidden = true;
 	idleEl.hidden = poll.phase !== "idle";
 	votingEl.hidden = poll.phase !== "voting";
 	resultEl.hidden = poll.phase !== "result";
 
 	if (poll.phase === "voting") {
-		statusConfirmed = true;
 		votingNamesEl.innerHTML = "";
 		const voted = hasVotedThisHour(poll.hourSlot);
 		poll.names.forEach((name) => {
@@ -111,7 +114,6 @@ function render(poll) {
 	}
 
 	if (poll.phase === "result") {
-		statusConfirmed = true;
 		resultTextEl.textContent = poll.winner
 			? poll.winner + " muss 'n Ahoj trinken! Prost!"
 			: "Keine Stimmen abgegeben.";
