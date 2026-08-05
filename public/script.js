@@ -1,5 +1,5 @@
 // --- Bilder-Galerie: ein Bild, wechselt automatisch ---
-const galleryImages = ["images/MemberMap.png", "images/Ahoj.jpg"];
+const galleryImages = ["images/MemberMap.png", "images/Rob_out.jpg", "images/Ahoj.jpg"];
 const GALLERY_INTERVAL_MS = 15000;
 const GALLERY_SWIPE_THRESHOLD = 40;
 let galleryIndex = 0;

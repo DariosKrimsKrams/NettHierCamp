@@ -66,6 +66,11 @@ body p {
 	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
+#poll-container p {
+	font-size: 1.05rem;
+	margin: 0;
+}
+
 #poll-container h2 {
 	font-size: 1.7rem;
 	margin: 0 0 14px;
