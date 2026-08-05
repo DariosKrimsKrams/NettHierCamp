@@ -123,12 +123,30 @@ function scheduleStatusPolling(delay = 10000) {
 	}, delay);
 }
 
-function hasVotedThisHour(hourSlot) {
-	return localStorage.getItem("ahoj-voted-" + hourSlot) === "1";
+function votedHourKey(hourSlot) {
+	return "ahoj-voted-" + hourSlot;
 }
 
-function markVoted(hourSlot) {
-	localStorage.setItem("ahoj-voted-" + hourSlot, "1");
+function votedNameKey(hourSlot) {
+	return "ahoj-voted-name-" + hourSlot;
+}
+
+function hasVotedThisHour(hourSlot) {
+	return localStorage.getItem(votedHourKey(hourSlot)) === "1";
+}
+
+function getVotedName(hourSlot) {
+	return localStorage.getItem(votedNameKey(hourSlot));
+}
+
+function markVoted(hourSlot, name) {
+	localStorage.setItem(votedHourKey(hourSlot), "1");
+	localStorage.setItem(votedNameKey(hourSlot), name);
+}
+
+function clearVotedMark(hourSlot) {
+	localStorage.removeItem(votedHourKey(hourSlot));
+	localStorage.removeItem(votedNameKey(hourSlot));
 }
 
 function showError(msg) {
@@ -243,11 +261,15 @@ function render(poll) {
 	if (poll.phase === "voting") {
 		votingNamesEl.innerHTML = "";
 		const voted = hasVotedThisHour(poll.hourSlot);
+		const selectedName = getVotedName(poll.hourSlot);
 		poll.names.forEach((name) => {
 			const btn = document.createElement("button");
 			btn.type = "button";
 			btn.textContent = name + " (" + (poll.votes[name] || 0) + ")";
 			btn.disabled = voted;
+			if (name === selectedName) {
+				btn.classList.add("selected");
+			}
 			btn.addEventListener("click", () => castVote(name));
 			votingNamesEl.appendChild(btn);
 		});
@@ -305,7 +327,7 @@ async function castVote(name) {
 			showError(data.error || "Fehler beim Voten.");
 			return;
 		}
-		markVoted(currentPoll.hourSlot);
+		markVoted(currentPoll.hourSlot, name);
 		render(data);
 	} catch (e) {
 		showError("Netzwerkfehler.");
