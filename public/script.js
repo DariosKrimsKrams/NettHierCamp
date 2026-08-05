@@ -150,7 +150,8 @@ function updateShareLink(poll) {
 		.map((name) => `${name}: ${formatVotes(poll.votes[name] || 0)}`)
 		.join("\n - ");
 	const url = window.location.href;
-	const text = `${question}${options}\nHier mitmachen: ${url}`;
+	const countdown = formatRemainingTime(new Date(poll.endsAt).getTime() - Date.now());
+	const text = `${question}${options}\nNoch ${countdown} auf ${url}`;
 	const encoded = encodeURIComponent(text);
 	shareLink.href = `https://wa.me/?text=${encoded}`;
 	shareContainer.hidden = false;
@@ -160,8 +161,23 @@ function formatVotes(count) {
 	return count === 1 ? "1 Vote" : `${count} Votes`;
 }
 
+function formatRemainingTime(ms) {
+	const seconds = Math.max(0, Math.ceil(ms / 1000));
+	const minutes = Math.floor(seconds / 60);
+	const remainder = seconds % 60;
+	return `${minutes}:${String(remainder).padStart(2, "0")}`;
+}
+
 function clearVotedMark(hourSlot) {
 	localStorage.removeItem("ahoj-voted-" + hourSlot);
+}
+
+function clearAllVotedMarks() {
+	for (const key of Object.keys(localStorage)) {
+		if (key.startsWith("ahoj-voted-")) {
+			localStorage.removeItem(key);
+		}
+	}
 }
 
 function showNewPollForm() {
@@ -315,7 +331,7 @@ startForm.addEventListener("submit", async (e) => {
 			return;
 		}
 		startForm.reset();
-		clearVotedMark(data.hourSlot);
+		clearAllVotedMarks();
 		render(data);
 		clearStatusPolling();
 		scheduleStatusPolling(10000);
