@@ -1,0 +1,13 @@
+{
+  "name": "nett-hier-camp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Nett Hier Camp - Party-Website mit Ahoj-Voting",
+  "dependencies": {
+    "@netlify/blobs": "^10.7.12"
+  },
+  "devDependencies": {
+    "netlify-cli": "^27.1.0"
+  }
+}

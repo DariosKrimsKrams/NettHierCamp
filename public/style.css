@@ -1,0 +1,46 @@
+body {
+	font-family: Arial, sans-serif;
+	text-align: center;
+	background-color: #ffffff;
+	color: #000000;
+}
+
+h1 {
+	font-family: "Arial", Sans-serif;
+	font-size: 4.9rem;
+	font-weight: 900;
+	text-transform: uppercase;
+	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	color: #FF0017;
+	line-height: 1;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.gallery img {
+	width: 100%;
+	max-width: 700px;
+	height: auto;
+	border: 1px solid #000000;
+}
+
+#start-form input {
+	margin: 5px;
+	padding: 5px;
+}
+
+#voting-names button {
+	margin: 5px;
+	padding: 8px 12px;
+	font-size: 16px;
+}
+
+#poll-error {
+	color: #cc0000;
+	font-weight: bold;
+}
+
+#result-text {
+	color: #cc0000;
+}
