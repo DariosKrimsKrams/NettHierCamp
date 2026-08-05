@@ -145,13 +145,19 @@ function updateShareLink(poll) {
 		return;
 	}
 
-	const question = "Wer bekommst gleich 'n Ahoj?\n - ";
-	const options = poll.names.join("\n - ");
+	const question = "Wer bekommt gleich 'n Ahoj?\n - ";
+	const options = poll.names
+		.map((name) => `${name}: ${formatVotes(poll.votes[name] || 0)}`)
+		.join("\n - ");
 	const url = window.location.href;
-	const text = `${question} ${options}\nHier mitmachen: ${url}`;
+	const text = `${question}${options}\nHier mitmachen: ${url}`;
 	const encoded = encodeURIComponent(text);
 	shareLink.href = `https://wa.me/?text=${encoded}`;
 	shareContainer.hidden = false;
+}
+
+function formatVotes(count) {
+	return count === 1 ? "1 Stimme" : `${count} Stimmen`;
 }
 
 function showNewPollForm() {
@@ -220,7 +226,7 @@ function render(poll) {
 		poll.names.forEach((name) => {
 			const btn = document.createElement("button");
 			btn.type = "button";
-			btn.textContent = name + " (" + (poll.votes[name] || 0) + ")";
+			btn.textContent = name;
 			btn.disabled = voted;
 			btn.addEventListener("click", () => castVote(name));
 			votingNamesEl.appendChild(btn);
@@ -233,7 +239,7 @@ function render(poll) {
 			? poll.winner + " muss 'n Ahoj trinken! Prost!"
 			: "Keine Stimmen abgegeben.";
 		resultVotesEl.textContent = poll.names
-			.map((n) => n + ": " + (poll.votes[n] || 0))
+			.map((n) => `${n}: ${formatVotes(poll.votes[n] || 0)}`)
 			.join(" | ");
 	}
 
