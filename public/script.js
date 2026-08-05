@@ -27,6 +27,8 @@ const nextUnlockEl = document.getElementById("next-unlock");
 const nextUnlockCountdownEl = document.getElementById("next-unlock-countdown");
 const firstPollModal = document.getElementById("first-poll-modal");
 const firstPollOkBtn = document.getElementById("first-poll-ok");
+let idleModalShown = false;
+const FIRST_POLL_SHOWN_PREFIX = "ahoj-first-poll-shown-";
 
 let currentPoll = null;
 
@@ -53,23 +55,37 @@ function showError(msg) {
 	setTimeout(() => { errorEl.hidden = true; }, 4000);
 }
 
+function getModalHourKey(hourSlot) {
+	return FIRST_POLL_SHOWN_PREFIX + hourSlot;
+}
+
 function hasSeenFirstPollModal(hourSlot) {
-	return localStorage.getItem("ahoj-first-poll-" + hourSlot) === "1";
+	return localStorage.getItem(getModalHourKey(hourSlot)) === "1";
 }
 
 function markSeenFirstPollModal(hourSlot) {
-	localStorage.setItem("ahoj-first-poll-" + hourSlot, "1");
+	localStorage.setItem(getModalHourKey(hourSlot), "1");
+}
+
+function isWithinModalWindow() {
+	const now = new Date();
+	const start = new Date(2026, 7, 6, 10, 0, 0);
+	const end = new Date(2026, 7, 6, 20, 0, 0);
+	return now >= start && now <= end;
 }
 
 function showFirstPollModal(hourSlot) {
-	if (!firstPollModal || hasSeenFirstPollModal(hourSlot)) return;
+	if (!firstPollModal || idleModalShown || !isWithinModalWindow() || hasSeenFirstPollModal(hourSlot)) return;
 	firstPollModal.hidden = false;
+	idleModalShown = true;
 }
 
 function hideFirstPollModal(hourSlot) {
 	if (!firstPollModal) return;
 	firstPollModal.hidden = true;
-	markSeenFirstPollModal(hourSlot);
+	if (hourSlot) {
+		markSeenFirstPollModal(hourSlot);
+	}
 }
 
 function render(poll) {
@@ -104,7 +120,7 @@ function render(poll) {
 	if (poll.phase === "idle") {
 		showFirstPollModal(poll.hourSlot);
 	} else {
-		hideFirstPollModal(poll.hourSlot);
+		hideFirstPollModal();
 	}
 }
 
@@ -175,9 +191,7 @@ startForm.addEventListener("submit", async (e) => {
 
 if (firstPollOkBtn) {
 	firstPollOkBtn.addEventListener("click", () => {
-		if (currentPoll) {
-			hideFirstPollModal(currentPoll.hourSlot);
-		}
+		hideFirstPollModal(currentPoll?.hourSlot);
 	});
 }
 

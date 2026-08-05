@@ -193,6 +193,54 @@ hr {
 	margin: 30px auto;
 }
 
+.modal {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.45);
+	display: grid;
+	place-items: center;
+	padding: 20px;
+	z-index: 999;
+}
+
+.modal-content {
+	max-width: 420px;
+	width: 100%;
+	background: #fff9f2;
+	border: 2px solid #d18b68;
+	border-radius: 18px;
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+	padding: 24px 22px;
+	text-align: center;
+}
+
+.modal-content h3 {
+	margin: 0 0 12px;
+	font-size: 1.8rem;
+	color: #c92a2e;
+}
+
+.modal-content p {
+	margin: 0 0 18px;
+	font-size: 1rem;
+	color: #3c2320;
+}
+
+.modal-content button {
+	padding: 12px 24px;
+	border: none;
+	border-radius: 14px;
+	background: #f15b4e;
+	color: white;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.modal-content button:hover {
+	background: #d83f35;
+}
+
 a {
 	color: inherit;
 }
