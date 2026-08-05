@@ -157,7 +157,11 @@ function updateShareLink(poll) {
 }
 
 function formatVotes(count) {
-	return count === 1 ? "1 Stimme" : `${count} Stimmen`;
+	return count === 1 ? "1 Vote" : `${count} Votes`;
+}
+
+function clearVotedMark(hourSlot) {
+	localStorage.removeItem("ahoj-voted-" + hourSlot);
 }
 
 function showNewPollForm() {
@@ -237,7 +241,7 @@ function render(poll) {
 	if (poll.phase === "result") {
 		resultTextEl.textContent = poll.winner
 			? poll.winner + " muss 'n Ahoj trinken! Prost!"
-			: "Keine Stimmen abgegeben.";
+			: "Keine Votes abgegeben.";
 		resultVotesEl.textContent = poll.names
 			.map((n) => `${n}: ${formatVotes(poll.votes[n] || 0)}`)
 			.join(" | ");
@@ -282,7 +286,7 @@ async function castVote(name) {
 		});
 		const data = await res.json();
 		if (!res.ok) {
-			showError(data.error || "Fehler beim Abstimmen.");
+			showError(data.error || "Fehler beim Voten.");
 			return;
 		}
 		markVoted(currentPoll.hourSlot);
@@ -311,6 +315,7 @@ startForm.addEventListener("submit", async (e) => {
 			return;
 		}
 		startForm.reset();
+		clearVotedMark(data.hourSlot);
 		render(data);
 		clearStatusPolling();
 		scheduleStatusPolling(10000);

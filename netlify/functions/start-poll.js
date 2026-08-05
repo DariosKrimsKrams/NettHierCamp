@@ -47,6 +47,10 @@ export default async (req) => {
 		}
 	}
 
+	if (existingPoll) {
+		await store.delete(hourSlot);
+	}
+
 	await store.setJSON(hourSlot, poll);
 	return jsonResponse(publicView(poll));
 };
