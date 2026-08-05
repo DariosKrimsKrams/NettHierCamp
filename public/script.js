@@ -24,6 +24,7 @@ const countdownEl = document.getElementById("countdown");
 const resultTextEl = document.getElementById("result-text");
 const resultVotesEl = document.getElementById("result-votes");
 const nextUnlockEl = document.getElementById("next-unlock");
+const nextUnlockCountdownEl = document.getElementById("next-unlock-countdown");
 
 let currentPoll = null;
 
@@ -160,7 +161,13 @@ function tickCountdown() {
 		const next = new Date();
 		next.setMinutes(0, 0, 0);
 		next.setHours(next.getHours() + 1);
+		const remainingMs = next.getTime() - Date.now();
+		const minutes = Math.floor(remainingMs / 60000);
+		const seconds = Math.floor((remainingMs % 60000) / 1000);
 		nextUnlockEl.textContent = next.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+		nextUnlockCountdownEl.textContent = remainingMs > 0
+			? ` (in ${minutes}:${String(seconds).padStart(2, "0")})`
+			: "";
 	}
 }
 
