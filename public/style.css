@@ -167,6 +167,22 @@ body p {
 	margin-top: 16px;
 }
 
+#new-poll-button {
+	margin-top: 16px;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 14px;
+	background: #f15b4e;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+}
+
+#new-poll-button:hover {
+	background: #d83f35;
+}
+
 #result-text {
 	color: #9d2e2e;
 	margin-bottom: 8px;

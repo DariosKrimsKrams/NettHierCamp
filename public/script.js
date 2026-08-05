@@ -84,6 +84,7 @@ const nextUnlockEl = document.getElementById("next-unlock");
 const nextUnlockCountdownEl = document.getElementById("next-unlock-countdown");
 const firstPollModal = document.getElementById("first-poll-modal");
 const firstPollOkBtn = document.getElementById("first-poll-ok");
+const newPollBtn = document.getElementById("new-poll-button");
 let idleModalShown = false;
 const FIRST_POLL_SHOWN_PREFIX = "ahoj-first-poll-shown-";
 
@@ -150,6 +151,14 @@ function updateShareLink(poll) {
 	const encoded = encodeURIComponent(text);
 	shareLink.href = `https://wa.me/?text=${encoded}`;
 	shareContainer.hidden = false;
+}
+
+function showNewPollForm() {
+	loadingEl.hidden = true;
+	votingEl.hidden = true;
+	resultEl.hidden = true;
+	idleEl.hidden = false;
+	document.getElementById("name1")?.focus();
 }
 
 function getModalHourKey(hourSlot) {
@@ -299,6 +308,10 @@ if (firstPollOkBtn) {
 	firstPollOkBtn.addEventListener("click", () => {
 		hideFirstPollModal(currentPoll?.hourSlot);
 	});
+}
+
+if (newPollBtn) {
+	newPollBtn.addEventListener("click", showNewPollForm);
 }
 
 function tickCountdown() {

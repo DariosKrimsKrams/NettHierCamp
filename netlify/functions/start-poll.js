@@ -39,13 +39,15 @@ export default async (req) => {
 		winner: null,
 	};
 
-	// onlyIfNew verhindert, dass zwei Leute gleichzeitig eine Umfrage fuer dieselbe Stunde starten
-	const result = await store.setJSON(hourSlot, poll, { onlyIfNew: true });
-
-	if (!result.modified) {
-		return jsonResponse({ error: "Für diese Stunde läuft schon eine Umfrage." }, 409);
+	const existingPoll = await store.get(hourSlot, { type: "json" });
+	if (existingPoll && existingPoll.status === "voting") {
+		const endsAt = new Date(existingPoll.endsAt).getTime();
+		if (Date.now() < endsAt) {
+			return jsonResponse({ error: "Für diese Stunde läuft schon eine Umfrage." }, 409);
+		}
 	}
 
+	await store.setJSON(hourSlot, poll);
 	return jsonResponse(publicView(poll));
 };
 
