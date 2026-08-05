@@ -36,6 +36,8 @@ body p {
 	display: grid;
 	place-items: center;
 	overflow: hidden;
+	touch-action: pan-y;
+	user-select: none;
 }
 
 .gallery img {
@@ -155,7 +157,8 @@ body p {
 
 .modal-content {
 	max-width: 420px;
-	width: 100%;
+	width: 70%;
+	margin: 0 auto;
 	background: #fffdf5;
 	border: 3px solid #f5c6b4;
 	border-radius: 18px;

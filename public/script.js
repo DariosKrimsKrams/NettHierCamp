@@ -1,13 +1,70 @@
 // --- Bilder-Galerie: ein Bild, wechselt automatisch ---
 const galleryImages = ["images/MemberMap.png", "images/Ahoj.jpg"];
 const GALLERY_INTERVAL_MS = 15000;
+const GALLERY_SWIPE_THRESHOLD = 40;
 let galleryIndex = 0;
 const galleryImg = document.getElementById("gallery-img");
+const galleryEl = document.querySelector(".gallery");
+let touchStartX = null;
+let touchCurrentX = null;
+let galleryInterval = null;
 
-setInterval(() => {
-	galleryIndex = (galleryIndex + 1) % galleryImages.length;
+function updateGalleryImage() {
 	galleryImg.src = galleryImages[galleryIndex];
-}, GALLERY_INTERVAL_MS);
+}
+
+function nextGalleryImage() {
+	galleryIndex = (galleryIndex + 1) % galleryImages.length;
+	updateGalleryImage();
+}
+
+function prevGalleryImage() {
+	galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+	updateGalleryImage();
+}
+
+function resetGalleryInterval() {
+	if (galleryInterval !== null) {
+		clearInterval(galleryInterval);
+	}
+	galleryInterval = setInterval(nextGalleryImage, GALLERY_INTERVAL_MS);
+}
+
+resetGalleryInterval();
+
+if (galleryEl) {
+	galleryEl.addEventListener("touchstart", (event) => {
+		if (event.touches.length !== 1) return;
+		touchStartX = event.touches[0].clientX;
+		touchCurrentX = touchStartX;
+	});
+
+	galleryEl.addEventListener("touchmove", (event) => {
+		if (touchStartX === null || event.touches.length !== 1) return;
+		touchCurrentX = event.touches[0].clientX;
+	});
+
+	galleryEl.addEventListener("touchend", () => {
+		if (touchStartX === null || touchCurrentX === null) {
+			touchStartX = null;
+			touchCurrentX = null;
+			return;
+		}
+
+		const deltaX = touchCurrentX - touchStartX;
+		if (Math.abs(deltaX) >= GALLERY_SWIPE_THRESHOLD) {
+			if (deltaX > 0) {
+				prevGalleryImage();
+			} else {
+				nextGalleryImage();
+			}
+			resetGalleryInterval();
+		}
+
+		touchStartX = null;
+		touchCurrentX = null;
+	});
+}
 
 // --- Ahoj-Umfrage ---
 const POLL_INTERVAL_MS = 3000;
