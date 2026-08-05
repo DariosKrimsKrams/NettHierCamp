@@ -31,6 +31,7 @@ let idleModalShown = false;
 const FIRST_POLL_SHOWN_PREFIX = "ahoj-first-poll-shown-";
 
 let currentPoll = null;
+let statusConfirmed = false;
 
 function getClientId() {
 	let id = localStorage.getItem("ahoj-client-id");
@@ -96,6 +97,7 @@ function render(poll) {
 	resultEl.hidden = poll.phase !== "result";
 
 	if (poll.phase === "voting") {
+		statusConfirmed = true;
 		votingNamesEl.innerHTML = "";
 		const voted = hasVotedThisHour(poll.hourSlot);
 		poll.names.forEach((name) => {
@@ -109,6 +111,7 @@ function render(poll) {
 	}
 
 	if (poll.phase === "result") {
+		statusConfirmed = true;
 		resultTextEl.textContent = poll.winner
 			? poll.winner + " muss 'n Ahoj trinken! Prost!"
 			: "Keine Stimmen abgegeben.";
@@ -118,7 +121,9 @@ function render(poll) {
 	}
 
 	if (poll.phase === "idle") {
-		showFirstPollModal(poll.hourSlot);
+		if (statusConfirmed) {
+			showFirstPollModal(poll.hourSlot);
+		}
 	} else {
 		hideFirstPollModal();
 	}
