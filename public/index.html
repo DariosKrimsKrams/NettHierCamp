@@ -9,15 +9,43 @@
 <body>
 
 <h1>Nett Hier Camp - Partyyyyyy !!!!!!</h1>
-<h3>Afterparty HEUTE:</h3>
-<p>Täglich Spontan</p>
+<p>Afterparty HEUTE: Täglich Spontan</p>
 
-<hr>
-
-<h2>Bilder</h2>
 <div class="gallery">
 	<img id="gallery-img" src="images/MemberMap.png" alt="Camp Bild">
 </div>
+
+<div id="poll-container">
+	<a href="images/Ahoj.jpg" target="_blank">
+		<img src="images/Ahoj.jpg" alt="Ahoj" width="40">
+	</a>
+	<h2>Wer muss(darf) gleich Ahoj trinken?</h2>
+
+	<p id="poll-error" hidden></p>
+
+	<div id="poll-idle">
+		<p>Trage 3 Namen ein und starte die Umfrage!</p>
+		<form id="start-form">
+			<input type="text" id="name1" placeholder="Name 1" required>
+			<input type="text" id="name2" placeholder="Name 2" required>
+			<input type="text" id="name3" placeholder="Name 3" required>
+			<button type="submit">Umfrage starten</button>
+		</form>
+	</div>
+
+	<div id="poll-voting" hidden>
+		<p>Umfrage läuft noch <span id="countdown">3:00</span></p>
+		<div id="voting-names"></div>
+	</div>
+
+	<div id="poll-result" hidden>
+		<h3 id="result-text"></h3>
+		<p id="result-votes"></p>
+		<p>Nächste Umfrage ab <span id="next-unlock"></span> Uhr</p>
+	</div>
+</div>
+
+
 
 <hr>
 
@@ -26,33 +54,6 @@
 	<img src="images/insta.png" alt="Folge uns auf Instagram" width="50%">
 </a>
 </p>
-
-<hr>
-
-<h2><img src="images/Ahoj.jpg" alt="Ahoj" width="40"> Wer muss JETZT Ahoj trinken?</h2>
-
-<p id="poll-error" hidden></p>
-
-<div id="poll-idle">
-	<p>Grade läuft keine Umfrage. Trag 3 Namen ein und starte sie!</p>
-	<form id="start-form">
-		<input type="text" id="name1" placeholder="Name 1" required>
-		<input type="text" id="name2" placeholder="Name 2" required>
-		<input type="text" id="name3" placeholder="Name 3" required>
-		<button type="submit">Umfrage starten</button>
-	</form>
-</div>
-
-<div id="poll-voting" hidden>
-	<p>Umfrage läuft noch <span id="countdown">3:00</span></p>
-	<div id="voting-names"></div>
-</div>
-
-<div id="poll-result" hidden>
-	<h3 id="result-text"></h3>
-	<p id="result-votes"></p>
-	<p>Nächste Umfrage ab <span id="next-unlock"></span> Uhr</p>
-</div>
 
 <script src="script.js"></script>
 </body>
